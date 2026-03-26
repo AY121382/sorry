@@ -12,7 +12,8 @@
         }
         body {
             font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-            background: linear-gradient(180deg, #ffccd5 0%, #fff0f3 100%);
+            background: url('./Weixin Image_20260326174558_355_288.jpg') no-repeat center center fixed; /* 替换为新的背景图片 */
+            background-size: cover; /* 确保图片覆盖整个页面 */
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,7 +23,7 @@
         .container {
             width: 100%;
             max-width: 420px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.8); /* 设置背景为半透明 */
             border-radius: 24px;
             padding: 50px 30px;
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
@@ -48,7 +49,7 @@
             z-index: 999;
         }
         .modal-box {
-            background: white;
+            background: rgba(255, 255, 255, 0.9); /* 设置弹窗背景为半透明 */
             width: 85%;
             max-width: 360px;
             padding: 40px 25px;
@@ -101,7 +102,7 @@
             z-index: 9999;
         }
         .success-box {
-            background: #fff9fb;
+            background: rgba(255, 249, 251, 0.9); /* 设置成功弹窗背景为半透明 */
             width: 90%;
             max-width: 400px;
             border-radius: 24px;
