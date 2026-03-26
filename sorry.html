@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>道歉 💌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(180deg, #ffccd5 0%, #fff0f3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 420px;
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 50px 30px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .title {
+            font-size: 20px;
+            color: #ff5d8f;
+            font-weight: bold;
+            line-height: 1.6;
+            margin-bottom: 60px;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        .modal-box {
+            background: white;
+            width: 85%;
+            max-width: 360px;
+            padding: 40px 25px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .modal-text {
+            font-size: 19px;
+            color: #ff5d8f;
+            font-weight: bold;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .btn {
+            padding: 16px 20px;
+            border-radius: 50px;
+            font-size: 16px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-yes {
+            background: #ff5d8f;
+            color: white;
+        }
+        .btn-wait {
+            background: #f8edeb;
+            color: #333;
+        }
+        .btn:active {
+            transform: scale(0.96);
+        }
+        /* 原谅成功弹窗样式 */
+        .success-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        .success-box {
+            background: #fff9fb;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 24px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(255, 93, 143, 0.3);
+            animation: popIn 0.3s ease;
+        }
+        @keyframes popIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .success-title {
+            font-size: 24px;
+            color: #ff5d8f;
+            font-weight: bold;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .success-img-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .success-img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .success-close {
+            margin-top: 20px;
+            padding: 14px 30px;
+            background: #ff5d8f;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ✅ 背景音乐 自动播放 循环 隐藏-->
+<audio id="bgm" src="泪桥.mp3" loop autoplay hidden></audio>
+
+<div class="container">
+    <div class="title">
+        对不起宝宝<br>
+        我太笨没有反应过来<br>
+        原谅我好不好？(๑•́ ₃ •̀๑)
+    </div>
+    <div class="btn-group">
+        <button class="btn btn-yes" onclick="forgive()">
+            * ￣︿￣勉为其难原谅你一下吧~
+        </button>
+        <button class="btn btn-wait" onclick="showModal()">
+            本美女再考虑考虑`へ´
+        </button>
+    </div>
+</div>
+
+<!-- 循环追问弹窗 -->
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <div id="modalText" class="modal-text">考虑好了吗？(๑•́ ₃ •̀๑)</div>
+        <div id="btnGroup" class="btn-group">
+            <button class="btn btn-yes" onclick="forgive()">原谅你哦~</button>
+            <button class="btn btn-wait" onclick="nextPlead()">还没有#￣～￣#</button>
+        </div>
+    </div>
+</div>
+
+<!-- 原谅成功弹窗（带图+趣味排版） -->
+<div class="success-modal" id="successModal">
+    <div class="success-box">
+        <div class="success-title">
+            谢谢宝宝<br>
+            你最好啦！🥰❤️
+        </div>
+        <div class="success-img-grid">
+            <img class="success-img" src="C:\Users\魉劫12138\Desktop\Her.png" alt="可爱照片">
+            <img class="success-img" src="C:\Users\魉劫12138\Desktop\Weixin Image_20260326151200_350_288.png" alt="羊羊头像">
+            <img class="success-img" src="C:\Users\魉劫12138\Desktop\Weixin Image_20260326150826_347_288.jpg" alt="唯宝头像">
+            <img class="success-img" src="C:\Users\魉劫12138\Desktop\Weixin Image_20260326150844_348_288.jpg" alt="小羊简笔画">
+        </div>
+        <button class="success-close" onclick="closeSuccess()">爱你哟😘</button>
+    </div>
+</div>
+
+<script>
+    // 循环恳求话术
+    const pleadTexts = [
+        "那现在呢？(๑•́ ₃ •̀๑)",
+        "求求你了..@_@|||||..",
+        "我真的错啦呜呜呜 😭",
+        "原谅我这一次好不好～🥺",
+        "我以后一定乖乖听话 🙏",
+        "宝宝最好啦别生气啦～💖",
+        "再不给我机会我要哭啦 🥹",
+        "原谅我嘛原谅我嘛～😣"
+    ];
+
+    let index = 0;
+    const modal = document.getElementById("modal");
+    const modalText = document.getElementById("modalText");
+    const btnGroup = document.getElementById("btnGroup");
+    const successModal = document.getElementById("successModal");
+
+    // 显示弹窗
+    function showModal() {
+        index = 0;
+        modalText.innerText = "考虑好了吗？(๑•́ ₃ •̀๑)";
+        modal.style.display = "flex";
+    }
+
+    // 按钮随机交换位置 + 切换话术
+    function nextPlead() {
+        // 1. 切换话术（循环）
+        modalText.innerText = pleadTexts[index];
+        index++;
+        if (index >= pleadTexts.length) {
+            index = 0;
+        }
+
+        // 2. 按钮随机打乱位置
+        let buttons = Array.from(btnGroup.children);
+        if (Math.random() > 0.5) {
+            btnGroup.appendChild(buttons[0]);
+        }
+    }
+
+    // 原谅成功：弹出带图对话框
+    function forgive() {
+        modal.style.display = "none";
+        successModal.style.display = "flex";
+    }
+
+    // 关闭成功弹窗
+    function closeSuccess() {
+        successModal.style.display = "none";
+    }
+</script>
+</body>
+</html>
