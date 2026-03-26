@@ -204,9 +204,7 @@
         "求求你了..@_@|||||..",
         "我真的错啦呜呜呜 😭",
         "原谅我这一次好不好～🥺",
-        "我以后一定乖乖听话 🙏",
         "宝宝最好啦别生气啦～💖",
-        "再不给我机会我要哭啦 🥹",
         "原谅我嘛原谅我嘛～😣"
     ];
 
@@ -215,6 +213,19 @@
     const modalText = document.getElementById("modalText");
     const btnGroup = document.getElementById("btnGroup");
     const successModal = document.getElementById("successModal");
+
+    // 在第一次互动时播放音乐
+    function playMusic() {
+        const bgm = document.getElementById('bgm');
+        if (bgm.paused) {
+            bgm.play();
+        }
+    }
+
+    // 修改按钮点击事件，确保音乐在互动时播放
+    document.querySelectorAll('.btn').forEach(button => {
+        button.addEventListener('click', playMusic);
+    });
 
     // 显示弹窗
     function showModal() {
